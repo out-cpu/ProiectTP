@@ -4,7 +4,8 @@
 #include <stdlib.h>
 
 Color getTileColor(int value) {
-    switch(value) {
+    switch(value) 
+    {
         case 2:    return (Color){238, 228, 218, 255};
         case 4:    return (Color){237, 224, 200, 255};
         case 8:    return (Color){242, 177, 121, 255};
@@ -26,15 +27,19 @@ void processLine(int line[GRID_SIZE])
     int index = 0;
 
     
-    for (int i = 0; i < GRID_SIZE; i++) {
-        if (line[i] != 0) {
+    for (int i = 0; i < GRID_SIZE; i++) 
+    {
+        if (line[i] != 0) 
+        {
             temp[index++] = line[i];
         }
     }
 
     
-    for (int i = 0; i < index - 1; i++) {
-        if (temp[i] == temp[i + 1]) {
+    for (int i = 0; i < index - 1; i++) 
+    {
+        if (temp[i] == temp[i + 1]) 
+        {
             temp[i] *= 2;
             
             
@@ -48,14 +53,16 @@ void processLine(int line[GRID_SIZE])
     }
 
     
-    for (int i = 0; i < GRID_SIZE; i++) {
+    for (int i = 0; i < GRID_SIZE; i++) 
+    {
         line[i] = (i < index) ? temp[i] : 0;
     }
 }
 
 void moveLeft(int grid[GRID_SIZE][GRID_SIZE])
 {
-    for (int i = 0; i < GRID_SIZE; i++) {
+    for (int i = 0; i < GRID_SIZE; i++) 
+    {
         processLine(grid[i]);
     }
 }
@@ -63,7 +70,8 @@ void moveLeft(int grid[GRID_SIZE][GRID_SIZE])
 
 void reverse(int line[GRID_SIZE])
 {
-    for (int i = 0; i < GRID_SIZE / 2; i++) {
+    for (int i = 0; i < GRID_SIZE / 2; i++) 
+    {
         int temp = line[i];
         line[i] = line[GRID_SIZE - 1 - i];
         line[GRID_SIZE - 1 - i] = temp;
@@ -72,7 +80,8 @@ void reverse(int line[GRID_SIZE])
 
 void moveRight(int grid[GRID_SIZE][GRID_SIZE])
 {
-    for (int i = 0; i < GRID_SIZE; i++) {
+    for (int i = 0; i < GRID_SIZE; i++) 
+    {
         reverse(grid[i]);
         processLine(grid[i]);
         reverse(grid[i]);
@@ -81,19 +90,55 @@ void moveRight(int grid[GRID_SIZE][GRID_SIZE])
 
 ///SUS 
 
-void moveUp(int grid[GRID_SIZE][GRID_SIZE])
+void transpose(int grid[GRID_SIZE][GRID_SIZE])
 {
-    for (int i = 0; i < GRID_SIZE; i++) {
-        for (int j = 0; j < GRID_SIZE; j++) {
-            
+    int t[GRID_SIZE][GRID_SIZE];      // transpusa matricei grid
+
+    for (int i = 0; i < GRID_SIZE; i++)
+    {
+        for (int j = 0; j < GRID_SIZE; j++) 
+        {
+            t[j][i] = grid[i][j];   
+        }
+    }
+
+    
+    for (int i = 0; i < GRID_SIZE; i++) 
+    {
+        for (int j = 0; j < GRID_SIZE; j++) 
+        {
+            grid[i][j] = t[i][j];   
         }
     }
 }
 
+void moveUp(int grid[GRID_SIZE][GRID_SIZE])
+{
+    transpose(grid);
+
+    for (int i = 0; i < GRID_SIZE; i++) 
+    {
+        processLine(grid[i]);
+    }
+
+    transpose(grid);
+}
+
 ///JOS
 
-//void moveDown(int grid[GRID_SIZE][GRID_SIZE])
+void moveDown(int grid[GRID_SIZE][GRID_SIZE])
+{
+    transpose(grid);
 
+    for (int i = 0; i < GRID_SIZE; i++) 
+    {
+        reverse(grid[i]);
+        processLine(grid[i]);
+        reverse(grid[i]);
+    }
+
+    transpose(grid);
+}
 
 
 
@@ -102,15 +147,16 @@ void drawGrid(int grid[GRID_SIZE][GRID_SIZE]) {
     int padding = 10;
 
     for (int i = 0; i < GRID_SIZE; i++) {
-        for (int j = 0; j < 4; j++) {
-
+        for (int j = 0; j < 4; j++) 
+        {
             int x = j * (tileSize + padding) + padding;
             int y = i * (tileSize + padding) + padding;
 
             int value = grid[i][j];
             DrawRectangle(x, y, tileSize, tileSize, getTileColor(value));
 
-            if (value != 0) {
+            if (value != 0) 
+            {
                 char text[10];
                 sprintf(text, "%d", value);
 

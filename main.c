@@ -32,6 +32,9 @@ int main()
 
         if (IsKeyPressed(KEY_LEFT))  moveLeft(grid);
         if (IsKeyPressed(KEY_RIGHT)) moveRight(grid);
+        if (IsKeyPressed(KEY_UP)) moveUp(grid);
+        if (IsKeyPressed(KEY_DOWN)) moveDown(grid);
+        
         
         /////////////////////////////////////////////
 
