@@ -2,6 +2,7 @@
 #include "raylib.h"
 #include <time.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 Color getTileColor(int value) {
     switch(value) 
@@ -17,7 +18,7 @@ Color getTileColor(int value) {
         case 512:  return (Color){237, 200, 80, 255};
         case 1024: return (Color){237, 197, 63, 255};
         case 2048: return (Color){237, 194, 46, 255};
-        default:   return (Color){205, 193, 180, 255}; 
+        default:   return (Color){205, 193, 180, 255}; //empthy tile
     }
 }
 
@@ -147,7 +148,7 @@ void drawGrid(int grid[GRID_SIZE][GRID_SIZE]) {
     int padding = 10;
 
     for (int i = 0; i < GRID_SIZE; i++) {
-        for (int j = 0; j < 4; j++) 
+        for (int j = 0; j < GRID_SIZE; j++) 
         {
             int x = j * (tileSize + padding) + padding;
             int y = i * (tileSize + padding) + padding;
@@ -167,7 +168,7 @@ void drawGrid(int grid[GRID_SIZE][GRID_SIZE]) {
                          x + (tileSize - textWidth)/2,
                          y + (tileSize - fontSize)/2,
                          fontSize,
-                         BLACK);
+                         DARKBROWN);
             }
         }
     }
