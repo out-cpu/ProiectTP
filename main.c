@@ -126,7 +126,46 @@ int main()
             }
 
              if (score > highScore) highScore = score;
+            //winning condition
 
+             int won = 0;
+            for (int i = 0; i < GRID_SIZE; i++)
+                for (int j = 0; j < GRID_SIZE; j++)
+                    if (grid[i][j] == 2048) { won = 1; break; }
+
+            if (won)
+            {
+                BeginDrawing();
+                    ClearBackground(colorBackground);
+                    drawGrid(grid);
+                    DrawText(TextFormat("Score: %08d", score),
+                        30 * GRID_SIZE, 102 * GRID_SIZE, 5 * GRID_SIZE, DARKBROWN);
+                    DrawText(TextFormat("Best:  %08d", highScore),
+                        30 * GRID_SIZE, 107 * GRID_SIZE, 5 * GRID_SIZE, MAROON);
+
+                    DrawRectangle(
+                        (screenWidth  - 50 * GRID_SIZE) / 2,
+                        (screenHeight - 30 * GRID_SIZE) / 2,
+                        50 * GRID_SIZE, 30 * GRID_SIZE, GOLD);
+                    DrawText("YOU WIN!",
+                        (screenWidth - MeasureText("YOU WIN!", 7 * GRID_SIZE)) / 2,
+                        (screenHeight - 7 * GRID_SIZE) / 2,
+                        7 * GRID_SIZE, DARKBROWN);
+
+                    const char *whint = "Press ENTER to continue";
+                    DrawText(whint,
+                        (screenWidth - MeasureText(whint, 3 * GRID_SIZE)) / 2,
+                        (screenHeight + 30 * GRID_SIZE) / 2,
+                        3 * GRID_SIZE, DARKBROWN);
+                EndDrawing();
+
+                while (!WindowShouldClose())
+                    if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE)) break;
+
+                state = STATE_MENU;
+                continue;
+            }
+            
             // Game over check
             int over = 1;
             for (int i = 0; i < GRID_SIZE && over; i++)
